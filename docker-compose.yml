@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  dify-sandbox:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DIFY_SANDBOX_VERSION: ${DIFY_SANDBOX_VERSION}
+    image: hotwa/dify-sandbox-custom:${DIFY_SANDBOX_VERSION}
+    container_name: dify-sandbox-custom
+    command: tail -f /dev/null
+    env_file:
+      - .env
+    ports:
+      - "8194:8194"   # 替换为你的沙箱服务端口
+    volumes:
+      - ./scripts:/scripts:ro
+      - ./requirements.txt:/requirements.txt:ro
+      - ./package.json:/package.json:ro
+    restart: unless-stopped
